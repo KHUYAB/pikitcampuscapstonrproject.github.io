@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BS Information Technology - Department</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .slide-in-left {
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 0.8s ease-out;
+        }
+        
+        .slide-in-left.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .slide-in-right {
+            opacity: 0;
+            transform: translateX(50px);
+            transition: all 0.8s ease-out;
+        }
+        
+        .slide-in-right.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .scale-in {
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.8s ease-out;
+        }
+        
+        .scale-in.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+        
+        .hero-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: #4f46e5;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .scroll-indicator {
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+  
+<!-- Header -->
+<header class="bg-white shadow-lg fixed w-full top-0 z-50">
+  <nav class="container mx-auto px-6 py-4">
+    <div class="flex justify-between items-center">
+      
+      <!-- Left: Logo + Title -->
+      <div class="flex items-center space-x-3">
+        <!-- Circle Logo Image -->
+        <img src="logo/logo.png" alt="IT Department Logo" class="w-12 h-12 object-cover rounded-full shadow-md">
+
+        <div>
+          <h1 class="text-xl font-bold text-gray-800">BS Information Technology</h1>
+          <p class="text-sm text-gray-600">Department</p>
+        </div>
+      </div>
+      
+      <!-- Desktop Nav Links -->
+      <div class="hidden md:flex space-x-8">
+        <a href="#home" class="nav-link text-gray-700 hover:text-indigo-600 font-medium">Home</a>
+        <a href="#about" class="nav-link text-gray-700 hover:text-indigo-600 font-medium">About</a>
+        <a href="#programs" class="nav-link text-gray-700 hover:text-indigo-600 font-medium">Programs</a>
+        <a href="#capstone" class="nav-link text-gray-700 hover:text-indigo-600 font-medium">Capstone</a>
+        <a href="#faculty" class="nav-link text-gray-700 hover:text-indigo-600 font-medium">Faculty</a>
+        <a href="#contact" class="nav-link text-gray-700 hover:text-indigo-600 font-medium">Contact</a>
+      </div>
+      
+      <!-- Mobile Menu Button -->
+      <button class="md:hidden text-gray-700 hover:text-indigo-600" onclick="toggleMobileMenu()">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+      </button>
+    </div>
+    
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="hidden md:hidden mt-4 pb-4">
+      <a href="#home" class="block py-2 text-gray-700 hover:text-indigo-600" onclick="closeMobileMenu()">Home</a>
+      <a href="#about" class="block py-2 text-gray-700 hover:text-indigo-600" onclick="closeMobileMenu()">About</a>
+      <a href="#programs" class="block py-2 text-gray-700 hover:text-indigo-600" onclick="closeMobileMenu()">Programs</a>
+      <a href="#capstone" class="block py-2 text-gray-700 hover:text-indigo-600" onclick="closeMobileMenu()">Capstone</a>
+      <a href="#faculty" class="block py-2 text-gray-700 hover:text-indigo-600" onclick="closeMobileMenu()">Faculty</a>
+      <a href="#contact" class="block py-2 text-gray-700 hover:text-indigo-600" onclick="closeMobileMenu()">Contact</a>
+    </div>
+  </nav>
+</header>
+
+<!-- JS for Mobile Menu + Active Link -->
+<script>
+  function toggleMobileMenu() {
+    const menu = document.getElementById('mobileMenu');
+    menu.classList.toggle('hidden');
+  }
+
+  function closeMobileMenu() {
+    const menu = document.getElementById('mobileMenu');
+    menu.classList.add('hidden');
+  }
+
+  // Active link on scroll
+  window.addEventListener('scroll', () => {
+    const sections = document.querySelectorAll("section[id]");
+    const scrollY = window.pageYOffset + 100; // offset para hindi matakpan ng navbar
+
+    sections.forEach(current => {
+      const sectionHeight = current.offsetHeight;
+      const sectionTop = current.offsetTop;
+      const sectionId = current.getAttribute("id");
+      const navLink = document.querySelectorAll('.nav-link[href="#' + sectionId + '"]');
+
+      if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
+        navLink.forEach(link => link.classList.add("text-indigo-600", "font-bold"));
+      } else {
+        navLink.forEach(link => link.classList.remove("text-indigo-600", "font-bold"));
+      }
+    });
+  });
+</script>
+
+<!-- Smooth scroll CSS -->
+<style>
+  html {
+    scroll-behavior: smooth;
+  }
+</style>
+
+
+    <!-- Hero Section -->
+<section id="home" 
+    class="hero-bg min-h-screen flex items-center justify-center relative pt-20 bg-cover bg-center" 
+    style="background-image: url('images/mantawil.png');">
+    
+    <!-- Dark Overlay -->
+    <div class="absolute inset-0 bg-black bg-opacity-60"></div>
+
+    <div class="container mx-auto px-6 text-center text-white relative z-10">
+        <div class="fade-in">
+            <h1 class="text-5xl md:text-7xl font-bold mb-6">
+                Bachelor of Science in<br>
+                <span class="text-yellow-300">Information Technology</span>
+            </h1>
+            <p class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto opacity-90">
+                Empowering the next generation of tech innovators with cutting-edge knowledge and practical skills
+            </p>
+            <div class="space-x-4">
+                <button onclick="scrollToSection('about')" class="bg-white text-indigo-600 px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition duration-300">
+                    Learn More
+                </button>
+                <button onclick="scrollToSection('programs')" class="border-2 border-white text-white px-8 py-3 rounded-full font-semibold hover:bg-white hover:text-indigo-600 transition duration-300">
+                    View Programs
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Scroll Indicator -->
+    <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 scroll-indicator z-10">
+        <div class="w-6 h-10 border-2 border-white rounded-full flex justify-center">
+            <div class="w-1 h-3 bg-white rounded-full mt-2"></div>
+        </div>
+        <p class="text-white text-sm mt-2">Scroll Down</p>
+    </div>
+</section>
+
+    <!-- About Section -->
+<section id="about" class="py-20 bg-white">
+  <div class="container mx-auto px-6">
+    <div class="text-center mb-16 fade-in">
+      <h2 class="text-4xl font-bold text-gray-800 mb-4">About Our Department</h2>
+      <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+        The Bachelor of Science in Information Technology program of CfCST Pikit External Campus is committed to
+        producing competent and innovative IT professionals equipped with technical expertise and ethical values
+        for the modern digital world.
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-12 items-center">
+      <!-- Left: About -->
+      <div class="slide-in-left">
+        <h3 class="text-3xl font-bold text-gray-800 mb-6">Excellence in IT Education</h3>
+        <p class="text-gray-600 mb-6 leading-relaxed">
+          The BSIT program is designed to prepare students for the ever-changing field of information technology.
+          Our curriculum blends theoretical foundations with practical applications, ensuring graduates are ready
+          for industry challenges and opportunities.
+        </p>
+        <div class="space-y-4">
+          <div class="flex items-center space-x-3">
+            <div class="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
+              <span class="text-white text-sm">✓</span>
+            </div>
+            <span class="text-gray-700">Industry-aligned curriculum</span>
+          </div>
+          <div class="flex items-center space-x-3">
+            <div class="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
+              <span class="text-white text-sm">✓</span>
+            </div>
+            <span class="text-gray-700">State-of-the-art laboratories</span>
+          </div>
+          <div class="flex items-center space-x-3">
+            <div class="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
+              <span class="text-white text-sm">✓</span>
+            </div>
+            <span class="text-gray-700">Expert and dedicated faculty</span>
+          </div>
+        </div>
+      </div>
+
+ <!-- Right: Quick Stats -->
+<div class="slide-in-right">
+  <h4 class="text-2xl font-bold mb-8 text-gray-800">BSIT SECTION Active Students</h4>
+  <div class="grid grid-cols-2 gap-6">
+    
+    <!-- Card 1 -->
+    <div class="relative rounded-2xl overflow-hidden shadow-lg">
+      <img src="images/SECTION-A.jpg" alt="Students" class="w-full h-48 object-cover">
+      <div class="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center text-center p-4">
+        <div class="text-gray-200">SECTION-A</div>
+        <div class="text-3xl font-bold text-white mb-1">29+</div>
+        <div class="text-gray-200">Active Students</div>
+      </div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="relative rounded-2xl overflow-hidden shadow-lg">
+      <img src="images/SECTION-B.jpg" alt="Faculty" class="w-full h-48 object-cover">
+      <div class="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center text-center p-4">
+       <div class="text-gray-200">SECTION-B</div>
+        <div class="text-3xl font-bold text-white mb-1">26+</div>
+        <div class="text-gray-200">Active Students</div>
+      </div>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="relative rounded-2xl overflow-hidden shadow-lg">
+      <img src="images/SECTION-C.jpg" alt="Job Placement" class="w-full h-48 object-cover">
+      <div class="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center text-center p-4">
+       <div class="text-gray-200">SECTION-C</div>
+        <div class="text-3xl font-bold text-white mb-1">20+</div>
+        <div class="text-gray-200">Active Students</div>
+      </div>
+    </div>
+
+    <!-- Card 4 -->
+    <div class="relative rounded-2xl overflow-hidden shadow-lg">
+      <img src="images/SECTION-D.jpg" alt="Experience" class="w-full h-48 object-cover">
+      <div class="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center text-center p-4">
+       <div class="text-gray-200">SECTION-D</div>
+        <div class="text-3xl font-bold text-white mb-1">30+</div>
+        <div class="text-gray-200">Active Students</div>
+      </div>
+    </div>
+  </div>
+</div>
+  </div>
+</div>
+
+
+
+    <!-- Programs Section -->
+    <section id="programs" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4">Our Programs</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    Comprehensive curriculum covering all aspects of modern information technology
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="scale-in card-hover bg-white rounded-xl p-8 shadow-lg">
+                    <div class="w-16 h-16 bg-blue-100 rounded-lg flex items-center justify-center mb-6">
+                        <span class="text-3xl">💻</span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">Software Development</h3>
+                    <p class="text-gray-600 mb-6">
+                        Master programming languages, software engineering principles, and application development frameworks.
+                    </p>
+                    <ul class="text-sm text-gray-600 space-y-2">
+                        <li>• Java, Python, C++</li>
+                        <li>• Web Development</li>
+                        <li>• Mobile App Development</li>
+                        <li>• Database Management</li>
+                    </ul>
+                </div>
+                
+                <div class="scale-in card-hover bg-white rounded-xl p-8 shadow-lg" style="animation-delay: 0.2s;">
+                    <div class="w-16 h-16 bg-green-100 rounded-lg flex items-center justify-center mb-6">
+                        <span class="text-3xl">🌐</span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">Network & Security</h3>
+                    <p class="text-gray-600 mb-6">
+                        Learn network administration, cybersecurity, and system protection methodologies.
+                    </p>
+                    <ul class="text-sm text-gray-600 space-y-2">
+                        <li>• Network Configuration</li>
+                        <li>• Cybersecurity</li>
+                        <li>• System Administration</li>
+                        <li>• Ethical Hacking</li>
+                    </ul>
+                </div>
+                
+                <div class="scale-in card-hover bg-white rounded-xl p-8 shadow-lg" style="animation-delay: 0.4s;">
+                    <div class="w-16 h-16 bg-purple-100 rounded-lg flex items-center justify-center mb-6">
+                        <span class="text-3xl">📊</span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">Data Analytics</h3>
+                    <p class="text-gray-600 mb-6">
+                        Explore big data, machine learning, and business intelligence technologies.
+                    </p>
+                    <ul class="text-sm text-gray-600 space-y-2">
+                        <li>• Data Mining</li>
+                        <li>• Machine Learning</li>
+                        <li>• Business Intelligence</li>
+                        <li>• Statistical Analysis</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<!-- Capstone Projects Section -->
+<section id="capstone" class="py-20 bg-white">
+  <div class="container mx-auto px-6">
+    <div class="text-center mb-16 fade-in">
+      <h2 class="text-4xl font-bold text-gray-800 mb-4">Capstone Projects</h2>
+      <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+        Showcase of innovative final year projects by our talented students
+      </p>
+    </div>
+
+    <!-- Project 1 -->
+    <div class="grid lg:grid-cols-2 gap-12 items-center mb-16">
+      <div class="slide-in-left">
+        <div class="rounded-2xl overflow-hidden h-80 flex items-center justify-center">
+          <img src="capstone/kuyab.jpg" alt="Smart Campus Management System" class="w-full h-full object-cover">
+        </div>
+      </div>
+      <div class="slide-in-right">
+        <h3 class="text-3xl font-bold text-gray-800 mb-6">Smart Campus Management System</h3>
+        <p class="text-gray-600 mb-6 leading-relaxed">
+          A comprehensive web-based platform that integrates student information systems, facility management, and real-time campus monitoring. This project demonstrates advanced database design, web development, and IoT integration skills.
+        </p>
+        <div class="space-y-3 mb-6">
+          <div class="flex items-center space-x-3">
+            <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">React.js</span>
+            <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium">Node.js</span>
+            <span class="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm font-medium">MongoDB</span>
+          </div>
+        </div>
+        <p class="text-sm text-gray-500 italic mb-2">
+          "This project challenged us to think beyond traditional software development and consider real-world implementation challenges." - Team Alpha
+        </p>
+        <p class="text-sm text-gray-700 font-semibold">
+          Developers: Norhan, dodong kuyab
+        </p>
+      </div>
+    </div>
+
+    <!-- Project 2 -->
+    <div class="grid lg:grid-cols-2 gap-12 items-center mb-16">
+      <div class="slide-in-left order-2 lg:order-1">
+        <h3 class="text-3xl font-bold text-gray-800 mb-6">AI-Powered Learning Assistant</h3>
+        <p class="text-gray-600 mb-6 leading-relaxed">
+          An intelligent tutoring system that uses machine learning algorithms to personalize learning experiences for students. The system adapts to individual learning patterns and provides customized study recommendations.
+        </p>
+        <div class="space-y-3 mb-6">
+          <div class="flex items-center space-x-3">
+            <span class="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm font-medium">Python</span>
+            <span class="px-3 py-1 bg-red-100 text-red-800 rounded-full text-sm font-medium">TensorFlow</span>
+            <span class="px-3 py-1 bg-indigo-100 text-indigo-800 rounded-full text-sm font-medium">Flask</span>
+          </div>
+        </div>
+        <p class="text-sm text-gray-500 italic mb-2">
+          "Working with AI technologies opened our eyes to the future of education and personalized learning." - Team Beta
+        </p>
+        <p class="text-sm text-gray-700 font-semibold">
+          Developers: name
+        </p>
+      </div>
+      <div class="slide-in-right order-1 lg:order-2">
+        <div class="rounded-2xl overflow-hidden h-80 flex items-center justify-center">
+          <img src="images/mantawil.png" alt="AI-Powered Learning Assistant" class="w-full h-full object-cover">
+        </div>
+      </div>
+    </div>
+
+    <!-- Project 3 -->
+    <div class="grid lg:grid-cols-2 gap-12 items-center mb-16">
+      <div class="slide-in-left">
+        <div class="rounded-2xl overflow-hidden h-80 flex items-center justify-center">
+          <img src="images/mantawil.png" alt="Blockchain-Based Voting System" class="w-full h-full object-cover">
+        </div>
+      </div>
+      <div class="slide-in-right">
+        <h3 class="text-3xl font-bold text-gray-800 mb-6">Blockchain-Based Voting System</h3>
+        <p class="text-gray-600 mb-6 leading-relaxed">
+          A secure, transparent, and tamper-proof digital voting platform built on blockchain technology. This project addresses critical issues in digital democracy while ensuring voter privacy and election integrity.
+        </p>
+        <div class="space-y-3 mb-6">
+          <div class="flex items-center space-x-3">
+            <span class="px-3 py-1 bg-orange-100 text-orange-800 rounded-full text-sm font-medium">Solidity</span>
+            <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">Web3.js</span>
+            <span class="px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-sm font-medium">Ethereum</span>
+          </div>
+        </div>
+        <p class="text-sm text-gray-500 italic mb-2">
+          "This project taught us about the intersection of technology and democracy, and how blockchain can solve real-world problems." - Team Gamma
+        </p>
+        <p class="text-sm text-gray-700 font-semibold">
+          Developers: name
+        </p>
+      </div>
+    </div>
+
+    <!-- Project 4 -->
+    <div class="grid lg:grid-cols-2 gap-12 items-center mb-16">
+      <div class="slide-in-left order-2 lg:order-1">
+        <h3 class="text-3xl font-bold text-gray-800 mb-6">Virtual Reality Classroom</h3>
+        <p class="text-gray-600 mb-6 leading-relaxed">
+          A VR-based classroom environment that enables immersive remote learning experiences. This project combines education and virtual reality to simulate real-life lectures, labs, and interactive sessions.
+        </p>
+        <div class="space-y-3 mb-6">
+          <div class="flex items-center space-x-3">
+            <span class="px-3 py-1 bg-pink-100 text-pink-800 rounded-full text-sm font-medium">Unity</span>
+            <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">C#</span>
+            <span class="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm font-medium">Oculus SDK</span>
+          </div>
+        </div>
+        <p class="text-sm text-gray-500 italic mb-2">
+          "We wanted to push the boundaries of e-learning by making it immersive and interactive." - Team Delta
+        </p>
+        <p class="text-sm text-gray-700 font-semibold">
+          Developers: name
+        </p>
+      </div>
+      <div class="slide-in-right order-1 lg:order-2">
+        <div class="rounded-2xl overflow-hidden h-80 flex items-center justify-center">
+          <img src="images/mantawil.png" alt="Virtual Reality Classroom" class="w-full h-full object-cover">
+        </div>
+      </div>
+    </div>
+
+    <!-- Project 5 -->
+    <div class="grid lg:grid-cols-2 gap-12 items-center">
+      <div class="slide-in-left">
+        <div class="rounded-2xl overflow-hidden h-80 flex items-center justify-center">
+          <img src="images/mantawil.png" alt="Disaster Response Drone System" class="w-full h-full object-cover">
+        </div>
+      </div>
+      <div class="slide-in-right">
+        <h3 class="text-3xl font-bold text-gray-800 mb-6">Disaster Response Drone System</h3>
+        <p class="text-gray-600 mb-6 leading-relaxed">
+          A drone-based system for real-time disaster monitoring and relief support. Equipped with AI-powered image recognition and GPS mapping, this project helps in faster disaster assessment and emergency response.
+        </p>
+        <div class="space-y-3 mb-6">
+          <div class="flex items-center space-x-3">
+            <span class="px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-sm font-medium">Python</span>
+            <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium">OpenCV</span>
+            <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">DJI SDK</span>
+          </div>
+        </div>
+        <p class="text-sm text-gray-500 italic mb-2">
+          "Developing a system that could save lives during disasters was both challenging and rewarding." - Team Epsilon
+        </p>
+        <p class="text-sm text-gray-700 font-semibold">
+          Developers: name
+        </p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+
+            
+  <!-- Ready to Build Section -->
+<section id="build-capstone" 
+  class="relative py-20 bg-cover bg-center" 
+  style="background-image: url('images/lb.png');">
+  
+  <div class="absolute inset-0 bg-black bg-opacity-60"></div> <!-- dark overlay -->
+  
+  <div class="relative container mx-auto px-6 text-center text-white">
+    <h2 class="text-4xl font-bold mb-4">Explore Our Cutting-Edge IT Laboratories</h2>
+    <p class="text-lg mb-8 max-w-2xl mx-auto">
+      Step inside our modern computer laboratories where innovation meets technology. 
+      Equipped with the latest hardware, licensed software, and high-speed connectivity, 
+      our labs provide the perfect environment for BSIT students to design, develop, 
+      and showcase their capstone projects with confidence.
+    </p>
+    <button id="openModal" 
+      class="px-8 py-3 bg-indigo-600 hover:bg-indigo-700 rounded-full shadow-lg font-semibold transition">
+      View Our Laboratories
+    </button>
+  </div>
+</section>
+
+<!-- Modal -->
+<div id="labModal" class="fixed inset-0 bg-black bg-opacity-70 hidden flex items-center justify-center z-50 p-4">
+  <div class="bg-white rounded-2xl overflow-hidden shadow-lg max-w-5xl w-full max-h-screen overflow-y-auto relative">
+    
+    <!-- Close Button -->
+    <button id="closeModal" 
+      class="sticky top-3 right-3 ml-auto bg-red-500 hover:bg-red-600 text-white rounded-full p-2 shadow-lg z-50">
+      close
+    </button>
+    
+    <!-- Content -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 p-4">
+      <img src="images/lab.jpg" alt="Laboratory 1" class="w-full h-auto object-contain rounded-lg shadow">
+      <img src="images/laboratoy.png" alt="Laboratory 2" class="w-full h-auto object-contain rounded-lg shadow">
+      <img src="images/labr.jpg" alt="Laboratory 3" class="w-full h-auto object-contain rounded-lg shadow">
+      <img src="images/lan.jpg" alt="Laboratory 4" class="w-full h-auto object-contain rounded-lg shadow">
+    </div>
+  </div>
+</div>
+
+
+<!-- Script for Modal -->
+<script>
+  const openModal = document.getElementById('openModal');
+  const closeModal = document.getElementById('closeModal');
+  const labModal = document.getElementById('labModal');
+
+  openModal.addEventListener('click', () => {
+    labModal.classList.remove('hidden');
+  });
+
+  closeModal.addEventListener('click', () => {
+    labModal.classList.add('hidden');
+  });
+
+  // Close modal when clicking outside content
+  labModal.addEventListener('click', (e) => {
+    if (e.target === labModal) {
+      labModal.classList.add('hidden');
+    }
+  });
+</script>
+
+
+
+
+<!-- Faculty Section -->
+<section id="faculty" class="py-20 bg-white">
+  <div class="container mx-auto px-6">
+    <div class="text-center mb-16 fade-in">
+      <h2 class="text-4xl font-bold text-gray-800 mb-4">Meet Our Faculty</h2>
+      <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+        Learn from industry experts and experienced educators
+      </p>
+    </div>
+    
+    <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
+      
+      <!-- Faculty 1 -->
+      <div class="slide-in-left text-center">
+        <div class="w-32 h-32 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full mx-auto mb-6 flex items-center justify-center">
+          <span class="text-4xl text-white">👨‍💼</span>
+        </div>
+        <h3 class="text-xl font-bold text-gray-800 mb-2"></h3>
+        <p class="text-indigo-600 font-medium mb-3">Department Head</p>
+        <p class="text-gray-600 text-sm">
+          Ph.D. in Computer Science with 20+ years of experience in software engineering and academic leadership.
+        </p>
+      </div>
+      
+      <!-- Faculty 2 -->
+      <div class="slide-in-left text-center" style="animation-delay: 0.2s;">
+        <div class="w-32 h-32 bg-gradient-to-br from-green-400 to-green-600 rounded-full mx-auto mb-6 flex items-center justify-center">
+          <span class="text-4xl text-white">👩‍💼</span>
+        </div>
+        <h3 class="text-xl font-bold text-gray-800 mb-2"></h3>
+        <p class="text-indigo-600 font-medium mb-3">Cybersecurity Expert</p>
+        <p class="text-gray-600 text-sm">
+          Certified Ethical Hacker and security consultant with extensive industry experience.
+        </p>
+      </div>
+      
+      <!-- Faculty 3 -->
+      <div class="slide-in-left text-center" style="animation-delay: 0.4s;">
+        <div class="w-32 h-32 bg-gradient-to-br from-purple-400 to-purple-600 rounded-full mx-auto mb-6 flex items-center justify-center">
+          <span class="text-4xl text-white">👨‍💻</span>
+        </div>
+        <h3 class="text-xl font-bold text-gray-800 mb-2"></h3>
+        <p class="text-indigo-600 font-medium mb-3">Data Science Professor</p>
+        <p class="text-gray-600 text-sm">
+          Machine Learning researcher with publications in top-tier conferences and journals.
+        </p>
+      </div>
+
+      <!-- Faculty 4 -->
+      <div class="slide-in-left text-center" style="animation-delay: 0.6s;">
+        <div class="w-32 h-32 bg-gradient-to-br from-pink-400 to-pink-600 rounded-full mx-auto mb-6 flex items-center justify-center">
+          <span class="text-4xl text-white">👩‍🏫</span>
+        </div>
+        <h3 class="text-xl font-bold text-gray-800 mb-2"></h3>
+        <p class="text-indigo-600 font-medium mb-3">AI & Robotics Specialist</p>
+        <p class="text-gray-600 text-sm">
+          Expert in Artificial Intelligence and Robotics with hands-on experience in automation projects.
+        </p>
+      </div>
+
+      <!-- Faculty 5 -->
+      <div class="slide-in-left text-center" style="animation-delay: 0.8s;">
+        <div class="w-32 h-32 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-full mx-auto mb-6 flex items-center justify-center">
+          <span class="text-4xl text-white">👨‍🏫</span>
+        </div>
+        <h3 class="text-xl font-bold text-gray-800 mb-2"></h3>
+        <p class="text-indigo-600 font-medium mb-3">Software Engineering Mentor</p>
+        <p class="text-gray-600 text-sm">
+          Seasoned software engineer specializing in full-stack web development and agile methodologies.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+    
+    <!-- Contact Section -->
+<section id="contact" class="py-20 bg-gray-900 text-white">
+  <div class="container mx-auto px-6">
+    <!-- Title -->
+    <div class="text-center mb-16 fade-in">
+      <h2 class="text-4xl font-bold mb-4">Send Feedback</h2>
+      <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+        Ready to start your journey in Information Technology? Contact us today!
+      </p>
+    </div>
+
+    <!-- Map + Contact Form Side by Side -->
+    <div class="grid lg:grid-cols-2 gap-8 items-stretch">
+      
+      <!-- Google Map -->
+      <div class="bg-gray-800 p-4 rounded-2xl shadow-lg">
+        <h3 class="text-2xl font-bold mb-4 text-white">Our Location</h3>
+        <div class="rounded-xl overflow-hidden h-full">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15925.42549824613!2d124.6290501!3d7.07301!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x32f885f689e44701%3A0x1b29b2c36ed6b19f!2sCFCST%20Pikit%20Extension%20unit!5e0!3m2!1sen!2sph!4v1694015200000!5m2!1sen!2sph"
+            width="100%" height="100%" style="border:0; min-height: 400px;"
+            allowfullscreen="" loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
+        </div>
+      </div>
+
+      <!-- Contact Form -->
+      <div class="bg-gray-800 p-8 rounded-2xl shadow-lg slide-in-right">
+        <h3 class="text-2xl font-bold mb-6">Send Comment</h3>
+        <form class="space-y-4" onsubmit="handleFormSubmit(event)">
+          <div>
+            <input type="text" placeholder="Your Name" required
+              class="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-lg focus:outline-none focus:border-indigo-500 text-white">
+          </div>
+          <div>
+            <input type="email" placeholder="Your Email" required
+              class="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-lg focus:outline-none focus:border-indigo-500 text-white">
+          </div>
+          <div>
+            <textarea placeholder="Your Comment" rows="6" required
+              class="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-lg focus:outline-none focus:border-indigo-500 text-white resize-none"></textarea>
+          </div>
+          <button type="submit"
+            class="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold hover:bg-indigo-700 transition duration-300">
+            Send Comment
+          </button>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</section>
+<!-- FontAwesome CDN -->
+<script src="https://kit.fontawesome.com/yourkitid.js" crossorigin="anonymous"></script>
+
+
+<!-- Footer -->
+<footer class="bg-black text-white py-8">
+  <div class="container mx-auto px-6">
+    <div class="flex flex-col md:flex-row items-center justify-between">
+      
+      <!-- Left: Logo + School Name -->
+      <div class="flex items-center space-x-3 mb-4 md:mb-0">
+        <img src="images/logo.png" alt="CFCST Logo" class="w-12 h-12">
+        <span class="text-lg font-bold">Cotabato Foundation College of Science and Technology</span>
+      </div>
+      
+      <!-- Center: Contact Info -->
+      <div class="space-y-2">
+        <h3 class="text-xl font-semibold mb-2">Contact</h3>
+        <p class="text-gray-400">📍 Pikit Extension, Cotabato</p>
+        <p class="text-gray-400">📞 +63 912 345 6789</p>
+        <p class="text-gray-400">✉️cfcst.edu.ph</p>
+        <a href="https://www.facebook.com/profile.php?id=100092192517873" target="_blank" 
+           class="text-gray-400 hover:text-indigo-500 transition flex items-center justify-center md:justify-start space-x-2">
+          <i class="fab fa-facebook text-2xl"></i>
+          <span>Facebook Page</span>
+        </a>
+      </div>
+
+      <!-- Center: Facebook Link -->
+      <div class="mb-4 md:mb-0">
+        <a href="https://www.facebook.com/profile.php?id=100092192517873" target="_blank" 
+           class="text-yellow-400 underline hover:text-yellow-300 transition flex items-center space-x-2">
+          <i class="fab fa-facebook text-2xl"></i>
+          <span>Visit our Facebook Page</span>
+        </a>
+      </div>
+      
+      <!-- Right: Developer Modal Link -->
+      <div>
+        <button onclick="openDeveloperModal()" 
+                class="text-yellow-400 underline hover:text-yellow-300 transition">
+          Developed By
+        </button>
+      </div>
+    </div>
+
+    <!-- Divider -->
+    <div class="border-t border-gray-700 mt-6 pt-4 text-center text-gray-500 text-sm">
+      © 2024 Cotabato Foundation College of Science and Technology. All rights reserved.
+    </div>
+  </div>
+</footer>
+
+<!-- Developer Modal -->
+<div id="developerModal" class="fixed inset-0 hidden bg-black bg-opacity-70 flex items-center justify-center z-50">
+  <div class="bg-gray-900 text-white rounded-xl shadow-lg max-w-3xl w-full p-6 relative">
+    <!-- Close Button -->
+    <button onclick="closeDeveloperModal()" class="absolute top-3 right-3 text-gray-400 hover:text-white">
+      ✖
+    </button>
+    
+    <h3 class="text-2xl font-bold mb-6 text-center">Website Developer</h3>
+
+    <!-- Developer Card -->
+    <div class="bg-gray-800 rounded-lg p-6 flex flex-col md:flex-row items-center md:items-start shadow-md">
+      <!-- Developer Image -->
+      <div class="flex-shrink-0 mb-4 md:mb-0 md:mr-6 flex justify-center">
+        <img src="images/logo.jpg" alt="Norhan - Developer" class="w-32 h-32 rounded-full object-cover border-4 border-gray-700 shadow-lg">
+      </div>
+
+      <!-- Developer Message -->
+      <div class="text-center md:text-left">
+        <p class="font-semibold text-xl mb-2">Norhan</p>
+        <p class="text-gray-400 text-base leading-relaxed">
+          I am <span class="text-white font-bold">Norhan</span>, the developer of this website for CFCST students. 
+          This project was built to make it easier for students to access important information and services of the school.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<!-- FontAwesome CDN -->
+<script src="https://kit.fontawesome.com/yourkitid.js" crossorigin="anonymous"></script>
+
+<!-- Modal Script -->
+<script>
+  function openDeveloperModal() {
+    document.getElementById("developerModal").classList.remove("hidden");
+  }
+  function closeDeveloperModal() {
+    document.getElementById("developerModal").classList.add("hidden");
+  }
+</script>
+
+    <script>
+        // Smooth scrolling animation observer
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all animation elements
+        document.addEventListener('DOMContentLoaded', () => {
+            const animatedElements = document.querySelectorAll('.fade-in, .slide-in-left, .slide-in-right, .scale-in');
+            animatedElements.forEach(el => observer.observe(el));
+        });
+
+        // Smooth scroll to section
+        function scrollToSection(sectionId) {
+            const element = document.getElementById(sectionId);
+            const headerHeight = 80;
+            const elementPosition = element.offsetTop - headerHeight;
+            
+            window.scrollTo({
+                top: elementPosition,
+                behavior: 'smooth'
+            });
+        }
+
+        // Mobile menu toggle
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.classList.toggle('hidden');
+        }
+
+        // Form submission handler
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            alert('Thank you for your message! This is a demo form. In a real implementation, this would send your message to the department.');
+        }
+
+        // Header scroll effect
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.classList.add('bg-white/95', 'backdrop-blur-sm');
+            } else {
+                header.classList.remove('bg-white/95', 'backdrop-blur-sm');
+            }
+        });
+
+        // Navigation link active state
+        window.addEventListener('scroll', () => {
+            const sections = ['home', 'about', 'programs', 'capstone', 'faculty', 'contact'];
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            let current = '';
+            sections.forEach(section => {
+                const element = document.getElementById(section);
+                const rect = element.getBoundingClientRect();
+                if (rect.top <= 100 && rect.bottom >= 100) {
+                    current = section;
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('text-indigo-600');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('text-indigo-600');
+                }
+            });
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97ab87df6530064f',t:'MTc1NzEzNjE2OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</body>
+</html>
